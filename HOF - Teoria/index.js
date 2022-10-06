@@ -49,4 +49,16 @@ const racas = personagens.reduce(function (valorAcumulado, personagem) {
   return valorAcumulado;
 }, {});
 
-console.log(racas);
+//console.log(racas);
+
+// SORT - Ordenar arrays
+
+/*personagens.sort((maior, menor) => {
+  return maior.nivel - menor.nivel;
+});*/
+console.log(personagens);
+
+const personagensOrdenados = personagens.slice().sort((maior, menor) => {
+  return maior.nivel - menor.nivel;
+});
+console.log(personagensOrdenados);
