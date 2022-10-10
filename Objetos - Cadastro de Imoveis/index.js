@@ -1,43 +1,125 @@
-let option;
-let allProperties = [];
+const vacancys = [];
 
-do {
-  option = prompt(`Quantidade de imóveis cadastrados: ${allProperties.length}
-  Você deseja:
-  1- Salvar um imóvel novo
-  2- Mostrar Imóveis
-  3- Sair`);
+function showVacancys() {
+  const stringVacancys = vacancys.reduce(function (finalText, vacancy, index) {
+    finalText += index + ". ";
+    finalText += vacancy.name;
+    finalText += " (" + vacancy.candidates.length + " candidatos)\n";
+    return finalText;
+  }, "");
 
-  switch (option) {
-    case "1":
-      const propertie = {};
-      propertie.owner = prompt(`Qual o nome do proprietário?`);
-      propertie.rooms = Number(prompt(`Qual a quantidade de quartos?`));
-      propertie.bathrooms = Number(prompt(`Qual a quantidade de banheiros?`));
-      propertie.garage = prompt(`Possui garagem? [S/N]`);
+  alert(stringVacancys);
+}
 
-      const confirmation = confirm(`Os dados estão corretos?
-      Proprietário: ${propertie.owner}
-      Quartos: ${propertie.rooms}
-      Banheiros: ${propertie.bathrooms}
-      Garagem: ${propertie.garage}`);
-      if (confirmation) {
-        allProperties.push(propertie);
-      }
-      break;
-    case "2":
-      for (i = 0; i < allProperties.length; i++) {
-        alert(`Imóvel ${i + 1}:
-         Proprietário: ${allProperties[i].owner}
-         Quartos: ${allProperties[i].rooms}
-         Banheiros: ${allProperties[i].bathrooms}
-         Garagem: ${allProperties[i].garage}`);
-      }
-      break;
-    case "3":
-      alert(`Encerrando...`);
-      break;
-    default:
-      alert(`Opção Inválida`);
+function newVacancy() {
+  const name = prompt(`Informe um nome para vaga`);
+  const description = prompt(`Informe uma descrição para a vaga`);
+  const limitDate = prompt(`Informe uma data limite (DD/MM/AAAA) para vaga`);
+
+  const confirmation = confirm(`Confirme os dados da vaga:
+  Nome: ${name}
+  Descrição: ${description}
+  Data limite: ${limitDate}`);
+  if (confirmation) {
+    const newVacancy = { name, description, limitDate, candidates: [] };
+    vacancys.push(newVacancy);
+    alert(`Vaga criada`);
   }
-} while (option !== "3");
+}
+
+function showInfos() {
+  const index = prompt(`Informe o índice da vaga que deseja exibir`);
+  const vacancy = vacancys[index];
+
+  const stringCandidates = vacancy.candidates.reduce(function (
+    finalText,
+    candidate
+  ) {
+    return finalText + "\n - " + candidate;
+  },
+  "");
+
+  alert(`Vaga nº ${index}:
+  Nome: ${vacancy.name}
+  Descrição: ${vacancy.description}
+  Data limite: ${vacancy.limitDate}
+  Quantidade de candidatos: ${vacancy.candidates.length}
+  Candidatos inscritos: ${stringCandidates}`);
+}
+
+function applyCandidate() {
+  const candidate = prompt(`Informe o nome do(a) candidato(a)`);
+  const index = prompt(`Informe o índice da vaga desejada`);
+  const vacancy = vacancys[index];
+
+  const confirmation =
+    confirm(`Deseja inscrever o candidato ${candidate} na vaga ${index}?
+  Nome: ${vacancy.name}
+  Descrição: ${vacancy.description}
+  Data limite: ${vacancy.limitDate}`);
+  if (confirmation) {
+    vacancy.candidates.push(candidate);
+    alert(`Inscrição realizada`);
+  }
+}
+
+function removeVacancy() {
+  const index = prompt(`Informe o índice da vaga a ser removida`);
+  const vacancy = vacancys[index];
+
+  const confirmation = confirm(`Você deseja excluir a vaga ${index}?
+  Nome: ${vacancy.name}
+  Descrição: ${vacancy.description}
+  Data limite: ${vacancy.limitDate}`);
+  if (confirmation) {
+    vacancys.splice(index, 1);
+    alert(`Vaga ${index} removida`);
+  }
+}
+
+function showMenu() {
+  const option = prompt(`Cadastro de vagas de emprego
+  Escolha uma das opções abaixo
+  
+  1- Listar vagas disponíveis
+  2- Criar nova vaga
+  3- Exibir uma vaga
+  4- Inscrever candidato
+  5- Remover vaga
+  6- Sair`);
+
+  return option;
+}
+
+function execute() {
+  let option = "";
+
+  do {
+    option = showMenu();
+
+    switch (option) {
+      case "1":
+        showVacancys();
+        break;
+      case "2":
+        newVacancy();
+        break;
+      case "3":
+        showInfos();
+        break;
+      case "4":
+        applyCandidate();
+        break;
+      case "5":
+        removeVacancy();
+        break;
+      case "6":
+        alert(`Saindo...`);
+        break;
+      default:
+        alert(`Opção inválida`);
+    }
+  } while (option !== "6");
+}
+
+execute();
