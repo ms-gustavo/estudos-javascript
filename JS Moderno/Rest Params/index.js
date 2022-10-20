@@ -1,0 +1,41 @@
+function sum(...numbers) {
+  return numbers.reduce((accum, num) => accum * num, 1);
+}
+
+console.log(
+  sum(
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    22,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  )
+);
