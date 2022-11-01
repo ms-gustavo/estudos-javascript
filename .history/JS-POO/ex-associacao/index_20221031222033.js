@@ -1,0 +1,1 @@
+const gustavo = new Author();
